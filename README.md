@@ -44,9 +44,9 @@ third-party widget author couldn't also use.
 3. On the kiosk, open the settings popover and find **Grocery List**
    under **Community Widgets** — that's the section for widget folders
    Rootboard has discovered but that aren't part of the dashboard
-   config yet. (The **Widgets** section above it only lists widgets
-   already in that config; a freshly dropped folder isn't there yet.)
-   Flip its switch on.
+   config yet. (The **Widgets** section above it only lists built-in
+   widgets; community widgets like this one stay under **Community
+   Widgets** even after you enable them.) Flip its switch on.
 
 No build step, no restart — the kiosk picks up the folder within a
 minute of it landing in `widgets/` (or immediately if you already have
