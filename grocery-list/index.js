@@ -71,7 +71,7 @@ function stripUnsafeChars(text) {
 }
 
 function clampText(text) {
-  return stripUnsafeChars(String(text)).trim().slice(0, MAX_ITEM_TEXT_LENGTH);
+  return stripUnsafeChars(String(text).trim().slice(0, MAX_ITEM_TEXT_LENGTH));
 }
 
 function readSettings(values) {
@@ -505,7 +505,7 @@ export default {
               items = stored.items
                 .filter((i) => i && typeof i.id === "string" && typeof i.text === "string")
                 .slice(0, MAX_ITEMS)
-                .map((i) => ({ id: i.id, text: clampText(i.text), done: Boolean(i.done) }));
+                .map((i) => ({ ...i, id: i.id, text: clampText(i.text), done: Boolean(i.done) }));
             }
           }
           loadState = "loaded";

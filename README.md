@@ -24,9 +24,9 @@ third-party widget author couldn't also use.
   otherwise inflate JSON-escaping far past what the arithmetic below
   assumes). With that sanitization in place, worst case — 200 items at
   the maximum length, every character a `"` (the worst ordinary
-  character JSON still has to escape) — serializes to **~42,400
+  character JSON still has to escape) — serializes to **~42,623
   characters, about two-thirds of the host's 64,000-character cap**,
-  with ~21,500 characters to spare. See the comment above `MAX_ITEMS` in
+  with ~21,377 characters to spare. See the comment above `MAX_ITEMS` in
   `grocery-list/index.js` for the exact arithmetic. As a backstop
   independent of that math, the widget also refuses to persist any
   change that would push the real serialized size past 60,000
