@@ -14,15 +14,23 @@ third-party widget author couldn't also use.
   checked items pushed to the bottom — pick one in the widget's
   settings.
 - Persists to the kiosk itself (survives reloads and restarts) via the
-  widget contract's storage service. No account, no cloud sync, no
-  network calls of any kind — this widget never calls `fetch`.
-- Caps the list at **200 items**, each up to 80 characters. That's a
-  deliberate ceiling: the host allows each widget up to 64,000
-  characters of stored data, and worst case — 200 items at the maximum
-  length, made entirely of characters that need JSON-escaping —
-  serializes to roughly **42,600 characters, about two-thirds of the
-  cap**, with ~21,000 characters to spare. See the comment above
-  `MAX_ITEMS` in `grocery-list/index.js` for the exact arithmetic.
+  widget contract's storage service. Nothing leaves the kiosk — storage
+  talks only to the kiosk's own server, and this widget never calls
+  `fetch`, phones home, or contacts any third party.
+- Caps the list at **200 items**, each up to 80 characters, and the
+  widget's input strips control characters and stray Unicode surrogates
+  before anything gets stored (a real widget's `<input>` can't type
+  those, but a hand-edited storage file could contain them, and they'd
+  otherwise inflate JSON-escaping far past what the arithmetic below
+  assumes). With that sanitization in place, worst case — 200 items at
+  the maximum length, every character a `"` (the worst ordinary
+  character JSON still has to escape) — serializes to **~42,400
+  characters, about two-thirds of the host's 64,000-character cap**,
+  with ~21,500 characters to spare. See the comment above `MAX_ITEMS` in
+  `grocery-list/index.js` for the exact arithmetic. As a backstop
+  independent of that math, the widget also refuses to persist any
+  change that would push the real serialized size past 60,000
+  characters, showing a "list full" notice instead.
 - It does *not* sync between devices, share a list between households,
   categorize or aisle-sort items, or support multiple lists. It's one
   shared list, for one kiosk, kept simple on purpose.
@@ -33,11 +41,16 @@ third-party widget author couldn't also use.
 2. Copy the `grocery-list/` folder into `widgets/` at the root of your
    Rootboard install (SSH, SD card — however you reach the kiosk's
    filesystem).
-3. On the kiosk, open **Settings → Widgets** and enable **Grocery
-   List**.
+3. On the kiosk, open the settings popover and find **Grocery List**
+   under **Community Widgets** — that's the section for widget folders
+   Rootboard has discovered but that aren't part of the dashboard
+   config yet. (The **Widgets** section above it only lists widgets
+   already in that config; a freshly dropped folder isn't there yet.)
+   Flip its switch on.
 
-No build step, no restart — the kiosk picks up the folder as soon as
-it's there.
+No build step, no restart — the kiosk picks up the folder within a
+minute of it landing in `widgets/` (or immediately if you already have
+the settings popover open when you drop it in).
 
 ## Settings
 
