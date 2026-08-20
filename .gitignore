@@ -1,0 +1,6 @@
+# Editor / OS droppings
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

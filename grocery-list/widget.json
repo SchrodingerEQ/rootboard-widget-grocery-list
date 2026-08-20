@@ -1,0 +1,29 @@
+{
+  "id": "grocery-list",
+  "name": "Grocery List",
+  "description": "A shared grocery list — add items, check them off, and clear the checked ones when you're done. Sorts manually, alphabetically, or checked-last; keeps up to 200 items.",
+  "version": "1.0.0",
+  "apiVersion": 1,
+  "entry": "index.js",
+  "icon": "icon.svg",
+  "slots": ["section"],
+  "settings": [
+    {
+      "key": "sortMode",
+      "label": "Sort",
+      "type": "select",
+      "default": "manual",
+      "options": [
+        { "value": "manual", "label": "Manual (add order)" },
+        { "value": "alphabetical", "label": "Alphabetical" },
+        { "value": "checked-last", "label": "Checked items last" }
+      ]
+    },
+    {
+      "key": "confirmClear",
+      "label": "Confirm before clearing checked items",
+      "type": "boolean",
+      "default": true
+    }
+  ]
+}
